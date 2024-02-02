@@ -6,20 +6,10 @@ function logger(req, res) {
   const url = `${protocol}://${host}:${PORT}${req.url}`;
   const status = res.statusCode;
   const type = req.method;
-  if (!res?.error) {
-    console.log(
-      `${date} |`,
-      `\x1b[32m${type}\x1b[0m`,
-      `${url} -`,
-      `\x1b[32m${status}\x1b[0m`
-    );
+  if (res?.error) {
+    console.log(`${date} |`, `${type}`, `${url} -`, `\x1b[32m${status}\x1b[0m`);
   } else {
-    console.log(
-      `${date} |`,
-      `\x1b[31m${type}\x1b[0m`,
-      `${url} -`,
-      `\x1b[31m${status}\x1b[0m`
-    );
+    console.log(`${date} |`, `${type}`, `${url} -`, `\x1b[31m${status}\x1b[0m`);
   }
 }
 
