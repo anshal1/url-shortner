@@ -4,7 +4,7 @@ function logger(req, res, statuscode, isError, message) {
   const host = req.hostname;
   const PORT = 5000 || process.env.PORT;
   const url = `${protocol}://${host}:${PORT}${req.url}`;
-  const status = statuscode || res.statusCode;
+  const status = statuscode || res?.statusCode;
   const type = req.method;
   if (!isError) {
     console.log(`${date} |`, `${type}`, `${url} -`, `\x1b[32m${status}\x1b[0m`);

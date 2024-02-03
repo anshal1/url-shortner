@@ -8,7 +8,7 @@ const TryCatch = (fn) => (req, res, next) => {
       })
       .catch((err) => {
         // Log error status code if an error occurred
-        logger(req, null, err?.status, true, err?.message);
+        logger(req, null, err?.status || 500, true, err?.message);
         // Send the error as response
         res
           .status(err.status || 500)
@@ -16,7 +16,7 @@ const TryCatch = (fn) => (req, res, next) => {
       });
   } catch (err) {
     // Catch synchronous errors
-    logger(req, null, err?.status, true, err?.message);
+    logger(req, null, err?.status || 500, true, err?.message);
     res
       .status(err.status || 500)
       .json({ error: err.message || "Internal Server Error" });
