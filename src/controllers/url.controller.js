@@ -66,7 +66,7 @@ const CreateNewShortUrl = TryCatch(async (req, res) => {
   const host = req.hostname;
   //   for dev only
   const PORT = 5000 || process.env.PORT;
-  const shortUrl = `${protocol}://${host}:${PORT}/short/${url_id}`;
+  const shortUrl = `${protocol}://${host}:${PORT}/url/short/${url_id}`;
   const createUrl = await urlModel.create({
     user: user?._id,
     short_url: shortUrl,
@@ -82,4 +82,18 @@ const CreateNewShortUrl = TryCatch(async (req, res) => {
   res.json({ url: createUrl });
 });
 
-module.exports = { CreateNewShortUrl };
+const navigateToUrlFromShortUrl = TryCatch(async (req, res) => {
+  const { short_url_id } = req.params;
+  const url = await urlModel.findOne({ short_url_id });
+  if (!url) {
+    throw new ApiError("Url not found", status.NOT_FOUND);
+  }
+  res.redirect(302, url?.long_url);
+  await urlModel.findOneAndUpdate(
+    { short_url_id },
+    { $set: { clicks: url.clicks + 1 } },
+    { new: true }
+  );
+});
+
+module.exports = { CreateNewShortUrl, navigateToUrlFromShortUrl };
