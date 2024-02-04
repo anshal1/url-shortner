@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 function Connect() {
-  mongoose.connect("mongodb://127.0.0.1:27017/urlShortner").then(() => {
+  mongoose.connect(process.env.URI).then(() => {
     console.log("Database Connected");
   });
 }
