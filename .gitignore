@@ -1,2 +1,6 @@
 /node_modules
 .env
+functions
+public
+.firebaserc
+firebase.json

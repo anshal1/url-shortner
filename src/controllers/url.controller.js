@@ -64,9 +64,13 @@ const CreateNewShortUrl = TryCatch(async (req, res) => {
   const url_id = await GenrerateShortUrlId();
   const protocol = req.protocol;
   const host = req.hostname;
-  //   for dev only
-  const PORT = 5000 || process.env.PORT;
-  const shortUrl = `${protocol}://${host}:${PORT}/url/short/${url_id}`;
+  let shortUrl = "";
+  if (process.env.env === "PRODUCTION") {
+    shortUrl = `${protocol}://${host}/url/short/${url_id}`;
+  } else {
+    //   for dev only
+    shortUrl = `${protocol}://${host}:${PORT}/url/short/${url_id}`;
+  }
   const createUrl = await urlModel.create({
     user: user?._id,
     short_url: shortUrl,
