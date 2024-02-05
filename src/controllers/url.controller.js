@@ -48,7 +48,7 @@ const GenrerateShortUrlId = () => {
 };
 
 const isUrl = (url) => {
-  const regex = new RegExp("^(https?|ftp)://[^s/$.?#].[^s]*$");
+  const regex = new RegExp("^(https)|(http)|(ftp)");
   return regex.test(url);
 };
 
