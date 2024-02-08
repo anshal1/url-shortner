@@ -101,4 +101,24 @@ const navigateToUrlFromShortUrl = TryCatch(async (req, res) => {
   );
 });
 
-module.exports = { CreateNewShortUrl, navigateToUrlFromShortUrl };
+const getPaginatedUrl = TryCatch(async (req, res) => {
+  const user = req.user;
+  const { page = 1, limit = 15 } = req.query;
+  const filter = { user: user?._id };
+  const option = {
+    page: +page,
+    limit: +limit,
+    sort: {
+      createdAt: -1,
+    },
+    populate: [{ path: "user", select: "name" }],
+  };
+  const tmp = await urlModel.paginate(filter, option);
+  res.json({ tmp });
+});
+
+module.exports = {
+  CreateNewShortUrl,
+  navigateToUrlFromShortUrl,
+  getPaginatedUrl,
+};
