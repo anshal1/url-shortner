@@ -69,6 +69,7 @@ const CreateNewShortUrl = TryCatch(async (req, res) => {
     shortUrl = `${protocol}://${host}/url/short/${url_id}`;
   } else {
     //   for dev only
+    const PORT = process.env.PORT || 5000;
     shortUrl = `${protocol}://${host}:${PORT}/url/short/${url_id}`;
   }
   const createUrl = await urlModel.create({
