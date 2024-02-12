@@ -113,8 +113,8 @@ const getPaginatedUrl = TryCatch(async (req, res) => {
     },
     populate: [{ path: "user", select: "name" }],
   };
-  const tmp = await urlModel.paginate(filter, option);
-  res.json({ tmp });
+  const urls = await urlModel.paginate(filter, option);
+  res.json({ urls });
 });
 
 module.exports = {
