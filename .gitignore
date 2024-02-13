@@ -4,3 +4,5 @@ functions
 public
 .firebaserc
 firebase.json
+/src/autoScripts
+duplicate.txt
