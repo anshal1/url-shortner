@@ -69,6 +69,7 @@ const CreateNewShortUrl = TryCatch(async (req, res) => {
     shortUrl = `${protocol}://${host}/url/short/${url_id}`;
   } else {
     //   for dev only
+    const PORT = process.env.PORT || 5000;
     shortUrl = `${protocol}://${host}:${PORT}/url/short/${url_id}`;
   }
   const createUrl = await urlModel.create({
@@ -100,4 +101,24 @@ const navigateToUrlFromShortUrl = TryCatch(async (req, res) => {
   );
 });
 
-module.exports = { CreateNewShortUrl, navigateToUrlFromShortUrl };
+const getPaginatedUrl = TryCatch(async (req, res) => {
+  const user = req.user;
+  const { page = 1, limit = 15 } = req.query;
+  const filter = { user: user?._id };
+  const option = {
+    page: +page,
+    limit: +limit,
+    sort: {
+      createdAt: -1,
+    },
+    populate: [{ path: "user", select: "name" }],
+  };
+  const urls = await urlModel.paginate(filter, option);
+  res.json({ urls });
+});
+
+module.exports = {
+  CreateNewShortUrl,
+  navigateToUrlFromShortUrl,
+  getPaginatedUrl,
+};
